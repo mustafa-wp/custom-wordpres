@@ -27,48 +27,43 @@
 
             <!-- عنوان القسم -->
             <h2 class="headline headline--small-plus t-center">Upcoming Events</h2>
+           
+            <?php 
+            $homepageEvents = new WP_Query(array(
+                'posts_per_page' => 2,
+                'post_type' => 'event'
+            ) );
+            while($homepageEvents->have_posts()){
+                $homepageEvents->the_post(); ?>
+                <div class="event-summary">
+
+<!-- التاريخ (شهر ويوم) -->
+<a class="event-summary__date t-center" href="#">
+    <span class="event-summary__month">Mar</span> <!-- شهر الحدث -->
+    <span class="event-summary__day">25</span> <!-- يوم الحدث -->
+</a>
+
+<!-- تفاصيل الحدث -->
+<div class="event-summary__content">
+    <h5 class="event-summary__title headline headline--tiny">
+        <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a> <!-- عنوان الحدث -->
+    </h5>
+    <p>
+<?php echo   wp_trim_words(get_the_content(), 18); ?>        <a href="<?php the_permalink(); ?>" class="nu gray">Learn more</a> <!-- رابط للمزيد من التفاصيل -->
+    </p>
+</div>
+</div>
+
+           <?php } 
+            ?>
 
             <!-- الحدث الأول -->
-            <div class="event-summary">
-
-                <!-- التاريخ (شهر ويوم) -->
-                <a class="event-summary__date t-center" href="#">
-                    <span class="event-summary__month">Mar</span> <!-- شهر الحدث -->
-                    <span class="event-summary__day">25</span> <!-- يوم الحدث -->
-                </a>
-
-                <!-- تفاصيل الحدث -->
-                <div class="event-summary__content">
-                    <h5 class="event-summary__title headline headline--tiny">
-                        <a href="#">Poetry in the 100</a> <!-- عنوان الحدث -->
-                    </h5>
-                    <p>
-                        Bring poems you’ve wrote to the 100 building this Tuesday for an open mic and snacks.
-                        <a href="#" class="nu gray">Learn more</a> <!-- رابط للمزيد من التفاصيل -->
-                    </p>
-                </div>
-            </div>
-
+            
             <!-- الحدث الثاني -->
-            <div class="event-summary">
-                <a class="event-summary__date t-center" href="#">
-                    <span class="event-summary__month">Apr</span>
-                    <span class="event-summary__day">02</span>
-                </a>
-                <div class="event-summary__content">
-                    <h5 class="event-summary__title headline headline--tiny">
-                        <a href="#">Quad Picnic Party</a>
-                    </h5>
-                    <p>
-                        Live music, a taco truck and more can be found at our third annual quad picnic day.
-                        <a href="#" class="nu gray">Learn more</a>
-                    </p>
-                </div>
-            </div>
-
+            
             <!-- زر لعرض جميع الأحداث -->
             <p class="t-center no-margin">
-                <a href="#" class="btn btn--blue">View All Events</a>
+                <a href="<?php echo site_url('/events') ?>" class="btn btn--blue">View All Events</a>
             </p>
 
         </div>
