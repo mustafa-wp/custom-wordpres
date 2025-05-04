@@ -1,87 +1,84 @@
-<?php get_header(); // استدعاء ملف الهيدر ?>
-<!-- بانر الصفحة الرئيسية -->
+<?php get_header(); // استدعاء ملف الهيدر (header.php) ?> 
+
+<!-- قسم البانر الرئيسي -->
+<!-- هذا القسم يحتوي على البانر الرئيسي للصفحة، ويضم صورة خلفية ورسائل ترحيبية -->
 <div class="page-banner">
-    <!-- صورة الخلفية الخاصة بالبانر -->
+    <!-- خلفية البانر -->
     <div class="page-banner__bg-image"
         style="background-image: url(<?php echo get_theme_file_uri('/images/library-hero.jpg') ?>)"></div>
 
-    <!-- محتوى البانر: العنوان والترحيب وزر -->
+    <!-- محتوى البانر -->
     <div class="page-banner__content container t-center c-white">
-        <h1 class="headline headline--large">Welcome!</h1> <!-- عنوان رئيسي مرحب -->
-        <h2 class="headline headline--medium">We think you&rsquo;ll like it here.</h2> <!-- رسالة ترحيب إضافية -->
+        <h1 class="headline headline--large">Welcome!</h1>
+        <h2 class="headline headline--medium">We think you&rsquo;ll like it here.</h2>
         <h3 class="headline headline--small">
             Why don&rsquo;t you check out the <strong>major</strong> you&rsquo;re interested in?
-        </h3> <!-- دعوة لاختيار تخصص دراسي -->
+        </h3>
 
-        <!-- زر يدعو المستخدم لاختيار التخصص -->
+        <!-- زر اختيار التخصص -->
         <a href="#" class="btn btn--large btn--blue">Find Your Major</a>
     </div>
 </div>
 
-<!-- تقسيم الصفحة إلى نصفين (تصميم عرض كامل بعرضين متساويين) -->
+<!-- قسم الأحداث والمدونة -->
+<!-- هذا القسم يحتوي على قسمين: قسم الأحداث القادمة وقسم المدونة -->
 <div class="full-width-split group">
-
-    <!-- القسم الأول: عرض الأحداث القادمة -->
+    <!-- قسم الأحداث القادمة -->
     <div class="full-width-split__one">
         <div class="full-width-split__inner">
-
-            <!-- عنوان القسم -->
             <h2 class="headline headline--small-plus t-center">Upcoming Events</h2>
            
             <?php 
+            // استعلام لعرض آخر حدثين
             $homepageEvents = new WP_Query(array(
-                'posts_per_page' => 2,
-                'post_type' => 'event'
+                'posts_per_page' => 2, // عدد الأحداث المعروضة
+                'post_type' => 'event' // نوع المحتوى: أحداث
             ) );
+            
+            // حلقة عرض الأحداث
             while($homepageEvents->have_posts()){
                 $homepageEvents->the_post(); ?>
                 <div class="event-summary">
+                    <!-- تاريخ الحدث -->
+                    <a class="event-summary__date t-center" href="#">
+                        <span class="event-summary__month"><?php the_time('M'); ?></span>
+                        <span class="event-summary__day"><?php the_time('d'); ?></span>
+                    </a>
 
-<!-- التاريخ (شهر ويوم) -->
-<a class="event-summary__date t-center" href="#">
-    <span class="event-summary__month">Mar</span> <!-- شهر الحدث -->
-    <span class="event-summary__day">25</span> <!-- يوم الحدث -->
-</a>
-
-<!-- تفاصيل الحدث -->
-<div class="event-summary__content">
-    <h5 class="event-summary__title headline headline--tiny">
-        <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a> <!-- عنوان الحدث -->
-    </h5>
-    <p>
-<?php echo   wp_trim_words(get_the_content(), 18); ?>        <a href="<?php the_permalink(); ?>" class="nu gray">Learn more</a> <!-- رابط للمزيد من التفاصيل -->
-    </p>
-</div>
-</div>
-
+                    <!-- تفاصيل الحدث -->
+                    <div class="event-summary__content">
+                        <h5 class="event-summary__title headline headline--tiny">
+                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                        </h5>
+                        <p>
+                            <?php echo wp_trim_words(get_the_content(), 10); // عرض جزء من المحتوى (18 كلمة) ?>
+                            <a href="<?php the_permalink(); ?>" class="nu gray">Learn more</a>
+                        </p>
+                    </div>
+                </div>
            <?php } 
+            wp_reset_postdata(); // إعادة تعيين بيانات الاستعلام
             ?>
 
-            <!-- الحدث الأول -->
-            
-            <!-- الحدث الثاني -->
-            
-            <!-- زر لعرض جميع الأحداث -->
+            <!-- رابط عرض جميع الأحداث -->
             <p class="t-center no-margin">
                 <a href="<?php echo site_url('/events') ?>" class="btn btn--blue">View All Events</a>
             </p>
-
         </div>
     </div>
 
-    <!-- القسم الثاني: من مدونتنا -->
+    <!-- قسم المدونة -->
     <div class="full-width-split__two">
         <div class="full-width-split__inner">
-
-            <!-- عنوان القسم -->
             <h2 class="headline headline--small-plus t-center">From Our Blogs</h2>
 
-            <!-- عرض المقالات الحديثة بشكل ديناميكي -->
             <?php
+            // استعلام لعرض آخر مقالين
             $homepagePosts = new WP_Query(array(
                 'posts_per_page' => 2
             ));
 
+            // حلقة عرض المقالات
             while ($homepagePosts->have_posts()) {
                 $homepagePosts->the_post(); ?>
                 <div class="event-summary">
@@ -99,21 +96,23 @@
                     </div>
                 </div>
             <?php }
-            wp_reset_postdata();
+            wp_reset_postdata(); // إعادة تعيين بيانات الاستعلام
             ?>
 
-            <!-- زر لعرض جميع التدوينات -->
+            <!-- رابط عرض جميع المقالات -->
             <p class="t-center no-margin">
                 <a href="<?php echo site_url('blog') ?>" class="btn btn--yellow">View All Blog Posts</a>
             </p>
         </div>
     </div>
-</div> <!-- إغلاق ال div الخاص بالتقسيم الكامل -->
+</div>
+
+<!-- قسم السلايدر -->
+<!-- هذا القسم يحتوي على سلايدر يظهر ثلاث شرائح مختلفة -->
 <div class="hero-slider">
     <div data-glide-el="track" class="glide__track">
         <div class="glide__slides">
-
-            <!-- الشريحة الأولى -->
+            <!-- شريحة النقل المجاني -->
             <div class="hero-slider__slide"
                 style="background-image: url(<?php echo get_theme_file_uri('images/bus.jpg'); ?>)">
                 <div class="hero-slider__interior container">
@@ -125,7 +124,7 @@
                 </div>
             </div>
 
-            <!-- الشريحة الثانية -->
+            <!-- شريحة التفاح -->
             <div class="hero-slider__slide"
                 style="background-image: url(<?php echo get_theme_file_uri('images/apples.jpg'); ?>)">
                 <div class="hero-slider__interior container">
@@ -137,7 +136,7 @@
                 </div>
             </div>
 
-            <!-- الشريحة الثالثة -->
+            <!-- شريحة الطعام المجاني -->
             <div class="hero-slider__slide"
                 style="background-image: url(<?php echo get_theme_file_uri('images/bread.jpg'); ?>)">
                 <div class="hero-slider__interior container">
@@ -148,12 +147,11 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
-        <!-- النقاط التي تظهر حالة الشريحة -->
+        <!-- نقاط التنقل بين الشرائح -->
         <div class="slider__bullets glide__bullets" data-glide-el="controls[nav]"></div>
     </div>
 </div>
 
-<?php get_footer(); ?>
+<?php get_footer(); // استدعاء ملف الفوتر (footer.php) ?>
