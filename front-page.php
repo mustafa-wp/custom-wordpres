@@ -31,7 +31,7 @@
             <?php 
             // استعلام لعرض آخر حدثين
             $homepageEvents = new WP_Query(array(
-                'posts_per_page' => 2, // عدد الأحداث المعروضة
+                'posts_per_page' => 3, // عدد الأحداث المعروضة
                 'post_type' => 'event' // نوع المحتوى: أحداث
             ) );
             
@@ -41,8 +41,11 @@
                 <div class="event-summary">
                     <!-- تاريخ الحدث -->
                     <a class="event-summary__date t-center" href="#">
-                        <span class="event-summary__month"><?php the_time('M'); ?></span>
-                        <span class="event-summary__day"><?php the_time('d'); ?></span>
+                        <span class="event-summary__month"><?php 
+                        $eventDate = new DateTime(get_field('event_date'));
+                        echo $eventDate->format('M');
+                        ?></span>
+                        <span class="event-summary__day"><?php echo $eventDate->format('d'); ?></span>
                     </a>
 
                     <!-- تفاصيل الحدث -->
@@ -51,7 +54,13 @@
                             <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                         </h5>
                         <p>
-                            <?php echo wp_trim_words(get_the_content(), 10); // عرض جزء من المحتوى (18 كلمة) ?>
+                        <?php if (has_excerpt()) {
+                            echo get_the_excerpt();
+
+                        } else {
+                            echo wp_trim_words(get_the_content(), 10);
+                        }?>
+                            
                             <a href="<?php the_permalink(); ?>" class="nu gray">Learn more</a>
                         </p>
                     </div>
@@ -62,7 +71,7 @@
 
             <!-- رابط عرض جميع الأحداث -->
             <p class="t-center no-margin">
-                <a href="<?php echo site_url('/events') ?>" class="btn btn--blue">View All Events</a>
+                <a href="<?php echo get_post_type_archive_link('event'); ?>" class="btn btn--blue">View All Events</a>
             </p>
         </div>
     </div>
@@ -75,7 +84,7 @@
             <?php
             // استعلام لعرض آخر مقالين
             $homepagePosts = new WP_Query(array(
-                'posts_per_page' => 2
+                'posts_per_page' => 3
             ));
 
             // حلقة عرض المقالات
@@ -90,7 +99,12 @@
                         <h5 class="event-summary__title headline headline--tiny">
                             <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                         </h5>
-                        <p><?php echo wp_trim_words(get_the_content(), 18); ?>
+                        <p><?php if (has_excerpt()) {
+                            echo get_the_excerpt();
+
+                        } else {
+                            echo wp_trim_words(get_the_content(), 10);
+                        }?>
                             <a href="<?php the_permalink(); ?>" class="nu gray">Read more</a>
                         </p>
                     </div>

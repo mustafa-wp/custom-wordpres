@@ -47,7 +47,7 @@
 
                <!-- أدوات الدخول والتسجيل والبحث -->
                <div class="site-header__util">
-                  <a href="#" class="btn btn--small btn--orange float-left push-right">Login</a>
+                  <a href="<?php echo site_url('/login') ?>" class="btn btn--small btn--orange float-left push-right">Login</a>
                   <a href="#" class="btn btn--small btn--dark-orange float-left">Sign Up</a>
                   <!-- زر البحث مكرر هنا لأغراض تصميمية -->
                   <span class="search-trigger js-search-trigger">
