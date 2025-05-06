@@ -44,7 +44,7 @@ get_header(); ?>
                     <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                 </h5>
                 <p>
-                    <?php echo wp_trim_words(get_the_content(), 10); // عرض جزء من المحتوى (18 كلمة) ?>
+                    <?php echo wp_trim_words(get_the_content(), 5); // عرض جزء من المحتوى (5 كلمة) ?>
                     <a href="<?php the_permalink(); ?>" class="nu gray">Read more</a>
                 </p>
             </div>

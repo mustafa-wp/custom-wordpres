@@ -31,6 +31,9 @@
             <?php 
             // استعلام لعرض آخر حدثين
             $homepageEvents = new WP_Query(array(
+                
+                
+                'order' => 'ASC',
                 'posts_per_page' => 3, // عدد الأحداث المعروضة
                 'post_type' => 'event' // نوع المحتوى: أحداث
             ) );
@@ -46,7 +49,7 @@
                         echo $eventDate->format('M');
                         ?></span>
                         <span class="event-summary__day"><?php echo $eventDate->format('d'); ?></span>
-                    </a>
+                                   </a>
 
                     <!-- تفاصيل الحدث -->
                     <div class="event-summary__content">
